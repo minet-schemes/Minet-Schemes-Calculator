@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HomeOwners Premium Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            
+            background-image: url('wallpaper.jpg');
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f1e5e5;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgb(214, 10, 10);
+            
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo img {
+            width: 120px; /* Set fixed width */
+            height: 40px; /* Set fixed height */
+            margin: 0 10px; /* Space between logos */
+            
+        }
+
+        /* Styling for img1 */
+        #img1 {
+            /*border: 3px solid #ff5733; /* Orange border */
+            padding: 5px; /* Padding around the image */
+            /*border-radius: 10px; /* Rounded corners */
+            /*box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+          
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-size: 1rem;
+            color: #555;
+            margin-top: 15px;
+            display: block;
+        }
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            width: 95%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        button {
+            display: block;
+            width: 100%;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #5c6ebd;
+            color: #050000;
+            border-color: #333;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #030000;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Logo section -->
+        <div class="logo">
+            <img src="Minet-Logo-2.png" id="img1" alt="Minet Logo">
+            <img src="Access-Logo.png"  alt="Access Logo">
+            
+        </div>
+
+        <h2>HomeOwners Premium Calculator</h2>
+
+        <!-- Input Fields -->
+        <label for="propertyValue">Property Value (Principal amount):</label>
+        <input type="number" id="propertyValue" placeholder="Enter Principal Amount">
+
+        <label for="premiumRate">Annual Premium Rate (%):</label>
+        <input type="number" id="premiumRate" placeholder="Enter Premium Rate">
+
+        <label for="policyStartDate">Policy Start Date:</label>
+        <input type="date" id="policyStartDate">
+
+        <label for="yearStartDate">Year Commencement Date:</label>
+        <input type="date" id="yearStartDate">
+
+        <!-- Calculate Button -->
+        <button onclick="calculatePremium()">Calculate Premium</button>
+
+        <!-- Output Section -->
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function calculatePremium() {
+            var propertyValue = parseFloat(document.getElementById('propertyValue').value);
+            var premiumRate = parseFloat(document.getElementById('premiumRate').value);
+            var policyStartDate = new Date(document.getElementById('policyStartDate').value);
+            var yearStartDate = new Date(document.getElementById('yearStartDate').value);
+
+            // Calculate Annual Premium
+            var annualPremium = propertyValue < 450000 ? Math.max(450, (propertyValue * premiumRate) / 100) : (propertyValue * premiumRate) / 100;
+
+            // Calculate Pro-Rata Premium
+            var daysInYear = 365;
+            var daysElapsed = (policyStartDate - yearStartDate) / (1000 * 60 * 60 * 24);
+            var proRataPremium = annualPremium * (daysInYear - daysElapsed - 1) / daysInYear;
+
+            // Output the calculated values
+            document.getElementById('output').innerHTML = 
+                "Annual Premium: BWP" + annualPremium.toFixed(2) + "<br>" + 
+                "Pro-Rata Premium: BWP" + proRataPremium.toFixed(2);
+        }
+    </script>
+
+</body>
+</html>
